@@ -1,0 +1,11 @@
+.DS_Store
+build/
+DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+.build/
+.swiftpm/
+Packages/OpenGDriveCore/.build/
+Config/Local.xcconfig
+OpenGDrive.xcodeproj/
+Config/Local.xcconfig.bak

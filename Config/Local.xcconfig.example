@@ -1,0 +1,10 @@
+// Copy to Config/Local.xcconfig and fill in. That file is ignored by git.
+
+// Your Apple team ID (Xcode > Settings > Accounts, or the OU field of your signing certificate).
+DEVELOPMENT_TEAM = ABCDE12345
+
+// Use your own reverse-DNS prefix so the bundle ID doesn't clash with someone else's team.
+OPENGDRIVE_BUNDLE_ID = com.example.opengdrive
+
+// The "iOS" OAuth client ID from Google Cloud Console, e.g. 1234-abc.apps.googleusercontent.com
+OPENGDRIVE_OAUTH_CLIENT_ID =

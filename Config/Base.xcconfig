@@ -1,0 +1,13 @@
+// Shared build settings. Override any of these in Config/Local.xcconfig (not committed).
+
+// Bundle ID of the app. The extension uses "<this>.FileProvider".
+OPENGDRIVE_BUNDLE_ID = com.example.opengdrive
+
+// Client ID of a Google OAuth client of type "iOS" whose bundle ID matches OPENGDRIVE_BUNDLE_ID.
+// Installed-app client IDs are public; sign-in uses PKCE and no client secret.
+OPENGDRIVE_OAUTH_CLIENT_ID =
+
+MARKETING_VERSION = 0.1.0
+CURRENT_PROJECT_VERSION = 1
+
+#include? "Local.xcconfig"

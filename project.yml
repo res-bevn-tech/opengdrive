@@ -1,0 +1,97 @@
+name: OpenGDrive
+options:
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+configFiles:
+  Debug: Config/Base.xcconfig
+  Release: Config/Base.xcconfig
+packages:
+  OpenGDriveCore:
+    path: Packages/OpenGDriveCore
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_HARDENED_RUNTIME: YES
+    DEAD_CODE_STRIPPING: YES
+    OPENGDRIVE_APP_GROUP: $(TeamIdentifierPrefix)$(OPENGDRIVE_BUNDLE_ID)
+    OPENGDRIVE_KEYCHAIN_GROUP: $(AppIdentifierPrefix)$(OPENGDRIVE_BUNDLE_ID).shared
+targets:
+  OpenGDrive:
+    type: application
+    platform: macOS
+    sources:
+      - OpenGDrive
+    dependencies:
+      - target: OpenGDriveFileProvider
+      - package: OpenGDriveCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(OPENGDRIVE_BUNDLE_ID)
+        PRODUCT_NAME: OpenGDrive
+        GENERATE_INFOPLIST_FILE: NO
+    info:
+      path: OpenGDrive/Info.plist
+      properties:
+        CFBundleDisplayName: OpenGDrive
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.productivity
+        NSHumanReadableCopyright: MIT License
+        OpenGDriveAppGroup: $(OPENGDRIVE_APP_GROUP)
+        OpenGDriveKeychainGroup: $(OPENGDRIVE_KEYCHAIN_GROUP)
+        OpenGDriveOAuthClientID: $(OPENGDRIVE_OAUTH_CLIENT_ID)
+    entitlements:
+      path: OpenGDrive/OpenGDrive.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+        com.apple.security.application-groups:
+          - $(OPENGDRIVE_APP_GROUP)
+        keychain-access-groups:
+          - $(OPENGDRIVE_KEYCHAIN_GROUP)
+  OpenGDriveFileProvider:
+    type: app-extension
+    platform: macOS
+    sources:
+      - OpenGDriveFileProvider
+    dependencies:
+      - package: OpenGDriveCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(OPENGDRIVE_BUNDLE_ID).FileProvider
+        PRODUCT_NAME: OpenGDriveFileProvider
+        GENERATE_INFOPLIST_FILE: NO
+    info:
+      path: OpenGDriveFileProvider/Info.plist
+      properties:
+        CFBundleDisplayName: OpenGDrive
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        OpenGDriveAppGroup: $(OPENGDRIVE_APP_GROUP)
+        OpenGDriveKeychainGroup: $(OPENGDRIVE_KEYCHAIN_GROUP)
+        OpenGDriveOAuthClientID: $(OPENGDRIVE_OAUTH_CLIENT_ID)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.fileprovider-nonui
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).FileProviderExtension
+          NSExtensionFileProviderDocumentGroup: $(OPENGDRIVE_APP_GROUP)
+          NSExtensionFileProviderSupportsEnumeration: true
+    entitlements:
+      path: OpenGDriveFileProvider/OpenGDriveFileProvider.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+        com.apple.security.application-groups:
+          - $(OPENGDRIVE_APP_GROUP)
+        keychain-access-groups:
+          - $(OPENGDRIVE_KEYCHAIN_GROUP)
+schemes:
+  OpenGDrive:
+    build:
+      targets:
+        OpenGDrive: all
+    run:
+      config: Debug
